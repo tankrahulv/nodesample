@@ -1,0 +1,25 @@
+{
+  "name": "node-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app",
+    "test": "mocha --recursive --exit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mockgoose": "^7.3.5",
+    "mongoose": "^5.4.1",
+    "https": "^1.0.0",
+    "json": "^9.0.3",
+    "jsonwebtoken": "^7.4.1",
+    "method-override": "^2.3.9",
+    "supertest": "^3.3.0"
+  }
+}
