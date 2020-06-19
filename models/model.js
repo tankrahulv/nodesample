@@ -7,7 +7,9 @@ var user = new Schema({
 	name: String,
 	username: String,
 	email: String,
-	type: String
+	type: String, 
+	ip: String,
+	userId: String,
 }, { collection: 'user' });
 exports.user = mongoose.model('user', user);
 
