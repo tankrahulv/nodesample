@@ -1,5 +1,7 @@
 const { RESPONSE_STATUS, MESSAGES } = require("../constants");
-const client = require('twilio')(accountSid, authToken);
+var model = require("../models/model"); 
+var USER_COLLECTION = model.user;
+var ObjectID = require('mongodb').ObjectID;
 
 const updatePhoneData = async (orgID) =>
   new Promise(async (resolve, reject) => {
@@ -28,6 +30,14 @@ const updatePhoneData = async (orgID) =>
         } else {
           phoneData = { status: RESPONSE_STATUS.FAIL };
         } 
+        rows[i].resource.telecom[0]['validate'] = phoneData;
+        var query = {
+            $set: {
+                resource:  JSON.stringify(rows[i].resource)
+            }
+        };
+        USER_COLLECTION.update({ _id: new ObjectID(user_id) }, query);
+
       }
 
       resolve({
@@ -45,13 +55,10 @@ const checkPhone = async phoneNumber => new Promise(async (resolve, reject) => {
     try {
       const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
         if (phoneRegex.test(phoneNumber)) {
-          client.lookups.phoneNumbers(phoneNumber)
-          .fetch({ type: ['carrier'] })
-          .then(phone_number => resolve({
+          resolve({
             status: RESPONSE_STATUS.SUCCESS,
             data: phone_number,
-          }))
-          .catch(error => reject(error));
+          }) 
         } else {
           const responseData = {
             status: RESPONSE_STATUS.FAIL,

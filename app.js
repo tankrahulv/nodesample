@@ -21,12 +21,12 @@ apiRoutes.use(chkToken);
 app.use("/api", apiRoutes);
 
 /*-----------------------All Routes List---------------------------------*/
-const { phoneDataUpdate, getUsers, getUserToken } = require("./routes/userroute");
+const { updateUserPhone, getUsers, getUserToken } = require("./routes/userroute");
 
 /*---------------------------User Routes------------------------------*/ 
 app.get(API_URLS.PHONE_DATA_UPDATE, async (req, res) => {
   const { phone, userId } = req.query;
-  return apiResponse(await phoneDataUpdate(phone, userId), res);
+  return apiResponse(await updateUserPhone(phone, userId), res);
 });
 app.get(API_URLS.GET_USERS, getUsers);
 app.post(API_URLS.GET_USER_TOKEN, getUserToken);  

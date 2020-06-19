@@ -5,17 +5,11 @@ var jwt = require("jsonwebtoken");
 var constant = require("../config/constant.json");
 var { updatePhoneData, apiResponse } = require("../utils/common");
 var { RESPONSE_STATUS,MESSAGES } = require("../constants");
-
-/*-------------------------------------------------------*/
-exports.getUsers = _getUsers;
-exports.getUserToken = _getUserToken;
-exports.phoneDataUpdate = phoneDataUpdate;
-/*-------------------------------------------------------*/
-
+ 
 /*
 TODO:To Get User Token
 */
-const _getUserToken = async (req, res) => {
+const getUserToken = async (req, res) => {
   try {
     const { email } = req.body;
     const responseData = await userToken(email);
@@ -41,7 +35,7 @@ const userToken = async (email) =>
           };
           reject(responseData);
         } else {
-          var token = await jwt.sign(getUser, constant.superSecret, {
+          var token = jwt.sign(getUser, constant.superSecret, {
             expiresIn: 86400, // expires in 24 hours
           });
           resolve({
@@ -63,7 +57,7 @@ const userToken = async (email) =>
   TODO:To get users.
   */
 
-const _getUsers = async (req, res) => 
+const getUsers = async (req, res) => 
 new Promise(async (resolve, reject) => {
     try {
 		var query = { };
@@ -90,7 +84,7 @@ new Promise(async (resolve, reject) => {
     }
   }); 
 
-const phoneDataUpdate = async (req, res) => {
+const updateUserPhone = async (req, res) => {
   try {
     const { orgID } = req.query;
     const responseData = await updatePhoneData(orgID);
@@ -103,3 +97,12 @@ const phoneDataUpdate = async (req, res) => {
     return apiResponse(responseData, res);
   }
 };
+
+
+
+module.exports = {
+	updateUserPhone,
+	getUsers,
+	getUserToken,
+  };
+  
